@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NetCoreStartProject.Options;
 using NetCoreStartProject.Services;
-using Microsoft.AspNetCore.Hosting;
 
 namespace NetCoreStartProject.Installers
 {
