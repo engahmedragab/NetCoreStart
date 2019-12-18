@@ -5,10 +5,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Extensions;
 using NetCoreStartProject.Options;
 
 namespace NetCoreStartProject.Services
@@ -27,8 +29,8 @@ namespace NetCoreStartProject.Services
             _tokenValidationParameters = tokenValidationParameters;
             _context = context;
         }
-        
-        public async Task<AuthenticationResult> RegisterAsync(string email, string password)
+
+        public async Task<AuthenticationResult> RegisterAsync(string email, string password, IUrlHelper url = null, string reqestSchema = "")
         {
             var existingUser = await _userManager.FindByEmailAsync(email);
 
@@ -36,10 +38,10 @@ namespace NetCoreStartProject.Services
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] {"User with this email address already exists"}
+                    Errors = new[] { "User with this email address already exists" }
                 };
             }
-            
+
             var newUser = new IdentityUser
             {
                 Email = email,
@@ -56,10 +58,15 @@ namespace NetCoreStartProject.Services
                 };
             }
 
-            return await GenerateAuthenticationResultForUserAsync(newUser);
+            var confirmationEmailLink = await _userManager.GenrateEmailConfirmationUrlAsync(newUser, url, reqestSchema);
+            return new AuthenticationResult
+            {
+                Success = true,
+                ConfirmationEmailLink = confirmationEmailLink
+            };
         }
-        
-        public async Task<AuthenticationResult> LoginAsync(string email, string password)
+
+        public async Task<AuthenticationResult> LoginAsync(string email, string password, IUrlHelper url = null, string reqestSchema = "")
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -80,7 +87,50 @@ namespace NetCoreStartProject.Services
                     Errors = new[] {"User/password combination is wrong"}
                 };
             }
-            
+
+            if (!user.EmailConfirmed)
+            {
+                var confirmationEmailLink = await _userManager.GenrateEmailConfirmationUrlAsync(user, url, reqestSchema);
+                return new AuthenticationResult
+                {
+                    Success = true,
+                    ConfirmationEmailLink = confirmationEmailLink
+                };
+            }
+
+            return await GenerateAuthenticationResultForUserAsync(user);
+        }
+
+        public async Task<AuthenticationResult> ConfirmEmailAsync(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User/token combination is wrong" }
+                };
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { $"The User ID { userId } is invalid" }
+                };
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Error happen Confirm Email" }
+                };
+            }
+
             return await GenerateAuthenticationResultForUserAsync(user);
         }
 
@@ -206,5 +256,7 @@ namespace NetCoreStartProject.Services
                 RefreshToken = refreshToken.Token
             };
         }
+
+       
     }
 }

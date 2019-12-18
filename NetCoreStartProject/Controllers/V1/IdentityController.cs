@@ -24,11 +24,11 @@ namespace NetCoreStartProject.Controllers.V1
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
+                    Errors = ModelState.Values.SelectMany(state => state.Errors.Select(Error => Error.ErrorMessage))
                 });
             }
             
-            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
+            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password,Url, Request.Scheme);
 
             if (!authResponse.Success)
             {
@@ -37,14 +37,41 @@ namespace NetCoreStartProject.Controllers.V1
                     Errors = authResponse.Errors
                 });
             }
-            
+
+            return Ok(new AuthSuccessResponse
+            {
+                ConfirmationMail = authResponse.ConfirmationEmailLink
+            });
+        }
+        //MailConfirmationRequest request
+        [HttpPost(ApiRoutes.Identity.MailConfarm)]
+        public async Task<IActionResult> ConfirmEmail(MailConfirmationRequest request /*string UserId , string  ConfirmtionToken*/)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = ModelState.Values.SelectMany(state => state.Errors.Select(Error => Error.ErrorMessage))
+                });
+            }
+
+            var authResponse = await _identityService.ConfirmEmailAsync(request.UserId, request.ConfirmtionToken);
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = authResponse.Errors
+                });
+            }
+
             return Ok(new AuthSuccessResponse
             {
                 Token = authResponse.Token,
                 RefreshToken = authResponse.RefreshToken
             });
         }
-        
+
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
@@ -57,7 +84,7 @@ namespace NetCoreStartProject.Controllers.V1
                     Errors = authResponse.Errors
                 });
             }
-            
+
             return Ok(new AuthSuccessResponse
             {
                 Token = authResponse.Token,
