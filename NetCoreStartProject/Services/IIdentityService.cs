@@ -17,6 +17,13 @@ namespace NetCoreStartProject.Services
         Task<AuthenticationResult> IsEmailInUseAsync(string email);
 
         Task<AuthenticationResult> HasPasswordAsync(string userId);
-        
+
+        Task<AuthenticationResult> AddPasswordAsync(string userId, string password);
+
+        Task<AuthenticationResult> ChangePasswordAsync(string userId , string password , string newPassword);
+
+        Task<AuthenticationResult> ForgotPasswordAsync(string userEmail, IUrlHelper url = null, string reqestSchema = "");
+
+        Task<AuthenticationResult> ResetPasswordAsync(string userEmail, string token , string password);
     }
 }

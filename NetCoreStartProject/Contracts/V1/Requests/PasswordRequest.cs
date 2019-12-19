@@ -5,8 +5,14 @@ using System.Threading.Tasks;
 
 namespace NetCoreStartProject.Contracts.V1.Requests
 {
-    public class UserHasPasswordRequest
+    public class PasswordRequest
     {
         public string UserId { get; set; }
+
+        public string Password { get; set; }
+
+        public string NewPassword { get; set; }
+
+        public string ConfirmPassword { get; set; }
     }
 }

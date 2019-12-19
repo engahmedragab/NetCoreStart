@@ -29,21 +29,22 @@ namespace NetCoreStartProject.Controllers.V1
                 });
             }
             
-            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password,Url, Request.Scheme);
+            var response = await _identityService.RegisterAsync(request.Email, request.Password,Url, Request.Scheme);
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = authResponse.Errors
+                    Errors = response.Errors
                 });
             }
 
             return Ok(new AuthSuccessResponse
             {
-                ConfirmationMail = authResponse.ConfirmationEmailLink
+                ConfirmationMail = response.ConfirmationEmailLink
             });
         }
+
         [HttpGet(ApiRoutes.Identity.MailConfarm)]
         public async Task<IActionResult> ConfirmEmail(MailConfirmationRequest request)
         {
@@ -55,105 +56,185 @@ namespace NetCoreStartProject.Controllers.V1
                 });
             }
 
-            var authResponse = await _identityService.ConfirmEmailAsync(request.UserId, HttpUtility.UrlDecode(request.ConfirmtionToken));
+            var response = await _identityService.ConfirmEmailAsync(request.UserId, HttpUtility.UrlDecode(request.ConfirmtionToken));
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = authResponse.Errors
+                    Errors = response.Errors
                 });
             }
 
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken
+                Token = response.Token,
+                RefreshToken = response.RefreshToken
             });
         }
 
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            var authResponse = await _identityService.LoginAsync(request.Email, request.Password,Url ,Request.Scheme);
+            var response = await _identityService.LoginAsync(request.Email, request.Password,Url ,Request.Scheme);
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = authResponse.Errors
+                    Errors = response.Errors
                 });
             }
 
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken,
-                ConfirmationMail = authResponse.ConfirmationEmailLink
+                Token = response.Token,
+                RefreshToken = response.RefreshToken,
+                ConfirmationMail = response.ConfirmationEmailLink
             });
         }
         
         [HttpPost(ApiRoutes.Identity.Refresh)]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {
-            var authResponse = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
+            var response = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
-                    Errors = authResponse.Errors
+                    Errors = response.Errors
                 });
             }
             
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken
+                Token = response.Token,
+                RefreshToken = response.RefreshToken
             });
         }
 
-
-        [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> IsEmailInUse([FromBody] UserInUseRequest request)
+        [HttpPost(ApiRoutes.Identity.EmailInUse)]
+        public async Task<IActionResult> IsEmailInUse([FromBody] UserEmailRequest request)
         {
-            var authResponse = await _identityService.IsEmailInUseAsync(request.UserEmail);
+            var response = await _identityService.IsEmailInUseAsync(request.UserEmail);
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
                 return BadRequest(new UserInUseResponse
                 {
-                    UserInUse = authResponse.Success,
-                    Errors = authResponse.Errors
+                    UserInUse = response.Success,
+                    Errors = response.Errors
                 });
             }
 
             return Ok(new UserInUseResponse
             {
-                UserInUse = authResponse.Success
+                UserInUse = response.Success
             });
         }
 
-        [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> IsUserHasPassword([FromBody] UserHasPasswordRequest request)
+        [HttpPost(ApiRoutes.Identity.UserHasPassword)]
+        public async Task<IActionResult> IsUserHasPassword([FromBody] PasswordRequest request)
         {
-            var authResponse = await _identityService.HasPasswordAsync(request.UserId);
+            var response = await _identityService.HasPasswordAsync(request.UserId);
 
-            if (!authResponse.Success)
+            if (!response.Success)
             {
-                return BadRequest(new UserHasPasswordResponse
+                return BadRequest(new PasswordResponse
                 {
-                    UserHasPassword = authResponse.Success,
-                    Errors = authResponse.Errors
+                    UserHasPassword = response.Success,
+                    Errors = response.Errors
                 });
             }
 
-            return Ok(new UserHasPasswordResponse
+            return Ok(new PasswordResponse
             {
-                UserHasPassword = authResponse.Success
+                UserHasPassword = response.Success
             });
         }
 
+        [HttpPost(ApiRoutes.Identity.AddPassword)]
+        public async Task<IActionResult> AddPassword([FromBody] PasswordRequest request)
+        {
+
+            var response = await _identityService.AddPasswordAsync(request.UserId,request.Password);
+
+            if (!response.Success)
+            {
+                return BadRequest(new PasswordResponse
+                {
+                    UserHasPassword = response.Success,
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new PasswordResponse
+            {
+                UserHasPassword = response.Success
+            });
+
+        }
+
+        [HttpPost(ApiRoutes.Identity.ChangePassword)]
+        public async Task<IActionResult> ChangePassword([FromBody] PasswordRequest request)
+        {
+            var response = await _identityService.ChangePasswordAsync(request.UserId,request.Password,request.NewPassword);
+
+            if (!response.Success)
+            {
+                return BadRequest(new PasswordResponse
+                {
+                    UserHasPassword = response.Success,
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new PasswordResponse
+            {
+                UserHasPassword = response.Success
+            });
+
+        }
+
+        [HttpPost(ApiRoutes.Identity.ForgetPassword)]
+        public async Task<IActionResult> ForgotPassword([FromBody] UserEmailRequest request)
+        {
+            var response = await _identityService.ForgotPasswordAsync(request.UserEmail);
+
+            if (!response.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new ForgotPasswordResponse
+            {
+                ForgetToken = response.ResetPasswardLink
+            });
+        }
+
+        [HttpPost(ApiRoutes.Identity.ResetPassword)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        {
+            var response = await _identityService.ResetPasswordAsync(request.UserEmail , HttpUtility.UrlDecode(request.Token) , request.Password);
+
+            if (!response.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = response.Token,
+                RefreshToken = response.RefreshToken
+            });
+        }
 
     }
 }

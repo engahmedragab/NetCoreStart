@@ -30,6 +30,19 @@
             public const string MailConfarm = Base + "/identity/mailconfarm";
 
             public const string Refresh = Base + "/identity/refresh";
+
+            public const string EmailInUse = Base + "/identity/emailuse";
+
+            public const string UserHasPassword = Base + "/identity/haspassword";
+
+            public const string AddPassword = Base + "/identity/addpassword";
+
+            public const string ChangePassword = Base + "/identity/changepassword";
+
+            public const string ForgetPassword = Base + "/identity/forgetpassword";
+
+            public const string ResetPassword = Base + "/identity/resetpassword";
+
         }
     }
 }

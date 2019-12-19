@@ -30,5 +30,17 @@ namespace NetCoreStartProject.Extensions
                                     new { userId = User.Id, token = emailConfirmationToken }, RequestSchema);
             return url;
         }
+
+        public static async Task<string> GenrateForgetPasswardUrlAsync(this UserManager<IdentityUser> userManager, IdentityUser User, IUrlHelper Url, string RequestSchema)
+        {
+            if (User == null || string.IsNullOrEmpty(User.Id))
+            {
+                return string.Empty;
+            }
+            var emailConfirmationToken = await userManager.GeneratePasswordResetTokenAsync(User);
+            string url = Url.Action("ConfirmEmail", "Identity",
+                                    new { userId = User.Id, token = emailConfirmationToken }, RequestSchema);
+            return url;
+        }
     }
 }

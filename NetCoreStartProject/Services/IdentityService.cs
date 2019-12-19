@@ -231,6 +231,7 @@ namespace NetCoreStartProject.Services
                     Errors = new[] { $"The User ID { userId } is invalid" }
                 };
             }
+
             var userHasPassword = await _userManager.HasPasswordAsync(user);
 
             if (userHasPassword)
@@ -247,7 +248,165 @@ namespace NetCoreStartProject.Services
             };
         }
 
+        public async Task<AuthenticationResult> AddPasswordAsync(string userId, string password)
+        {
+            if (userId == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User combination is wrong" }
+                };
+            }
 
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { $"The User ID { userId } is invalid" }
+                };
+            }
+
+            var hasPassword = await HasPasswordAsync(userId);
+
+            if (hasPassword.Success)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] { "This user already has password" }
+                };
+            }
+
+            var result = await _userManager.AddPasswordAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = result.Errors.Select(x => x.Description)
+                };
+            }
+            return await GenerateAuthenticationResultForUserAsync(user);
+        }
+
+        public async Task<AuthenticationResult> ForgotPasswordAsync(string userEmail, IUrlHelper url = null, string reqestSchema = "")
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User does not exist" }
+                };
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                var confirmationEmailLink = await _userManager.GenrateEmailConfirmationUrlAsync(user, url, reqestSchema);
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    ConfirmationEmailLink = confirmationEmailLink
+                };
+            }
+
+            var resetPasswordLink = await _userManager.GenrateForgetPasswardUrlAsync(user, url, reqestSchema);
+            return new AuthenticationResult
+            {
+                Success = true,
+                ResetPasswardLink = resetPasswordLink
+            };
+
+        }
+
+        public async Task<AuthenticationResult> ResetPasswordAsync(string userEmail, string token, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User does not exist" }
+                };
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] {"user email is not confirmed"}
+                };
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user,token, password);
+           
+            if (!result.Succeeded)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] { "Error happen while Reset the passward" }
+                };
+            }
+
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+            }
+            return await GenerateAuthenticationResultForUserAsync(user);
+
+        }
+
+        public async Task<AuthenticationResult> ChangePasswordAsync(string userId, string password, string newPassword)
+        {
+            if (userId == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User combination is wrong" }
+                };
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { $"The User ID { userId } is invalid" }
+                };
+            }
+
+            var hasPassword = await HasPasswordAsync(userId);
+
+            if (hasPassword.Success)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] { "This user already has password" }
+                };
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user,
+                   password,newPassword);
+
+            if (!result.Succeeded)
+            {
+                return new AuthenticationResult
+                {
+                    Success = false,
+                    Errors = result.Errors.Select(x => x.Description)
+                };
+            }
+            return await GenerateAuthenticationResultForUserAsync(user);
+        }
 
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
