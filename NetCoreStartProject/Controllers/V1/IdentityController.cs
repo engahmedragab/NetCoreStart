@@ -45,7 +45,7 @@ namespace NetCoreStartProject.Controllers.V1
             });
         }
         [HttpGet(ApiRoutes.Identity.MailConfarm)]
-        public async Task<IActionResult> ConfirmEmail(MailConfirmationRequest request /*string UserId , string  ConfirmtionToken*/)
+        public async Task<IActionResult> ConfirmEmail(MailConfirmationRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -110,6 +110,27 @@ namespace NetCoreStartProject.Controllers.V1
             {
                 Token = authResponse.Token,
                 RefreshToken = authResponse.RefreshToken
+            });
+        }
+
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsEmailInUse([FromBody] UserInUseRequest request)
+        {
+            var authResponse = await _identityService.IsEmailInUse(request.UserEmail);
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new UserInUseResponse
+                {
+                    UserInUse = authResponse.Success,
+                    Errors = authResponse.Errors
+                });
+            }
+
+            return Ok(new UserInUseResponse
+            {
+                UserInUse = authResponse.Success
             });
         }
     }

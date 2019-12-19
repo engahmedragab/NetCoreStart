@@ -191,6 +191,27 @@ namespace NetCoreStartProject.Services
             return await GenerateAuthenticationResultForUserAsync(user);
         }
 
+        public async Task<AuthenticationResult> IsEmailInUse(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null && user.EmailConfirmed)
+            {
+                return new AuthenticationResult
+                {
+                    Success = true
+                };
+            }
+            return new AuthenticationResult
+            {
+                Success = false,
+                Errors = new[] {
+                    user != null ? "Error happen User not exsists" : string.Empty ,
+                    user != null && user.EmailConfirmed ? "Error happen Confirm Email" : string.Empty
+                }
+            };
+        }
+
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
