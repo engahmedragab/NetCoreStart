@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreStartProject.Contracts.V1;
 using NetCoreStartProject.Contracts.V1.Requests;
@@ -43,8 +44,7 @@ namespace NetCoreStartProject.Controllers.V1
                 ConfirmationMail = authResponse.ConfirmationEmailLink
             });
         }
-        //MailConfirmationRequest request
-        [HttpPost(ApiRoutes.Identity.MailConfarm)]
+        [HttpGet(ApiRoutes.Identity.MailConfarm)]
         public async Task<IActionResult> ConfirmEmail(MailConfirmationRequest request /*string UserId , string  ConfirmtionToken*/)
         {
             if (!ModelState.IsValid)
@@ -55,7 +55,7 @@ namespace NetCoreStartProject.Controllers.V1
                 });
             }
 
-            var authResponse = await _identityService.ConfirmEmailAsync(request.UserId, request.ConfirmtionToken);
+            var authResponse = await _identityService.ConfirmEmailAsync(request.UserId, HttpUtility.UrlDecode(request.ConfirmtionToken));
 
             if (!authResponse.Success)
             {
@@ -75,7 +75,7 @@ namespace NetCoreStartProject.Controllers.V1
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
+            var authResponse = await _identityService.LoginAsync(request.Email, request.Password,Url ,Request.Scheme);
 
             if (!authResponse.Success)
             {
@@ -88,7 +88,8 @@ namespace NetCoreStartProject.Controllers.V1
             return Ok(new AuthSuccessResponse
             {
                 Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken
+                RefreshToken = authResponse.RefreshToken,
+                ConfirmationMail = authResponse.ConfirmationEmailLink
             });
         }
         
