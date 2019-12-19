@@ -117,7 +117,7 @@ namespace NetCoreStartProject.Controllers.V1
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsEmailInUse([FromBody] UserInUseRequest request)
         {
-            var authResponse = await _identityService.IsEmailInUse(request.UserEmail);
+            var authResponse = await _identityService.IsEmailInUseAsync(request.UserEmail);
 
             if (!authResponse.Success)
             {
@@ -133,5 +133,27 @@ namespace NetCoreStartProject.Controllers.V1
                 UserInUse = authResponse.Success
             });
         }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsUserHasPassword([FromBody] UserHasPasswordRequest request)
+        {
+            var authResponse = await _identityService.HasPasswordAsync(request.UserId);
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new UserHasPasswordResponse
+                {
+                    UserHasPassword = authResponse.Success,
+                    Errors = authResponse.Errors
+                });
+            }
+
+            return Ok(new UserHasPasswordResponse
+            {
+                UserHasPassword = authResponse.Success
+            });
+        }
+
+
     }
 }

@@ -191,7 +191,7 @@ namespace NetCoreStartProject.Services
             return await GenerateAuthenticationResultForUserAsync(user);
         }
 
-        public async Task<AuthenticationResult> IsEmailInUse(string email)
+        public async Task<AuthenticationResult> IsEmailInUseAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -211,6 +211,43 @@ namespace NetCoreStartProject.Services
                 }
             };
         }
+
+        public async Task<AuthenticationResult> HasPasswordAsync(string userId)
+        {
+            if (userId == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User combination is wrong" }
+                };
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { $"The User ID { userId } is invalid" }
+                };
+            }
+            var userHasPassword = await _userManager.HasPasswordAsync(user);
+
+            if (userHasPassword)
+            {
+                return new AuthenticationResult
+                {
+                    Success = true
+                };
+            }
+            return new AuthenticationResult
+            {
+                Success = false,
+                Errors = new[] { "This user has no password" } 
+            };
+        }
+
+
 
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {

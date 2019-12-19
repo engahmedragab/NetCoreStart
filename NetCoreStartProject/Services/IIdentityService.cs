@@ -14,6 +14,9 @@ namespace NetCoreStartProject.Services
 
         Task<AuthenticationResult> ConfirmEmailAsync(string userId, string confirmMailToken);
 
-        Task<AuthenticationResult> IsEmailInUse(string email);
+        Task<AuthenticationResult> IsEmailInUseAsync(string email);
+
+        Task<AuthenticationResult> HasPasswordAsync(string userId);
+        
     }
 }
