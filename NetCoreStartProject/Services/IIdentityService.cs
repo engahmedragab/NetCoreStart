@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Enums;
 
 namespace NetCoreStartProject.Services
 {
@@ -9,7 +10,9 @@ namespace NetCoreStartProject.Services
         Task<AuthenticationResult> RegisterAsync(string email, string password, IUrlHelper url = null, string reqestSchema = "");
         
         Task<AuthenticationResult> LoginAsync(string email, string password, IUrlHelper url = null, string reqestSchema = "");
-        
+
+        Task<AuthenticationResult> LoginWithExternalProvidersAsync(string accessToken, ExternalProvidersType externalProvidersType);
+
         Task<AuthenticationResult> RefreshTokenAsync(string token, string refreshToken);
 
         Task<AuthenticationResult> ConfirmEmailAsync(string userId, string confirmMailToken);

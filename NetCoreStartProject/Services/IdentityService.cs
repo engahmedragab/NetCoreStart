@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Enums;
 using NetCoreStartProject.Extensions;
 using NetCoreStartProject.Options;
 
@@ -20,13 +21,20 @@ namespace NetCoreStartProject.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly IExternalProvidersIdentityService _externalProvidersIdentityService;
         private readonly DataContext _context;
         
-        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, DataContext context)
+        public IdentityService (
+            UserManager<IdentityUser> userManager,
+            JwtSettings jwtSettings,
+            TokenValidationParameters tokenValidationParameters,
+            IExternalProvidersIdentityService externalProvidersIdentityService,
+            DataContext context)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
+            _externalProvidersIdentityService = externalProvidersIdentityService;
             _context = context;
         }
 
@@ -408,6 +416,87 @@ namespace NetCoreStartProject.Services
             return await GenerateAuthenticationResultForUserAsync(user);
         }
 
+        public async Task<AuthenticationResult> LoginWithExternalProvidersAsync(string accessToken, ExternalProvidersType externalProvidersType = ExternalProvidersType.Facebook)
+        {
+            switch (externalProvidersType)
+            {
+                case ExternalProvidersType.Facebook:
+                    var FacebookValidateTokenResult = _externalProvidersIdentityService.ValidateFacebookAccessTokenAsync(accessToken);
+                    if (!FacebookValidateTokenResult.Result.Data.IsValid)
+                    {
+                        return new AuthenticationResult
+                        {
+                            Errors = new[] { "Invalid Facebook Token" }
+                        };
+                    }
+                    var userInfo = _externalProvidersIdentityService.GetFacebookUserInfoAsync(accessToken).Result;
+
+                    if (userInfo == null)
+                    {
+                        return new AuthenticationResult
+                        {
+                            Errors = new[] { "Invalid Facebook User" }
+                        };
+                    }
+
+                    var user = await _userManager.FindByEmailAsync(userInfo.Email);
+
+                    if (user == null)
+            {
+                IdentityUser identityUser = new IdentityUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = userInfo.Email,
+                    UserName = userInfo.Email
+                };
+                var createdResult = await _userManager.CreateAsync(identityUser);
+                if (!createdResult.Succeeded)
+                {
+                    return new AuthenticationResult
+                    {
+                        Errors = new[] { "something went wrong when create user" }
+                    };
+                }
+
+                return await GenerateAuthenticationResultForUserAsync(identityUser);
+            }
+                    return await GenerateAuthenticationResultForUserAsync(user);
+                case ExternalProvidersType.LinkedIn:
+                    var userInfol = _externalProvidersIdentityService.GetLinkedInUserInfoAsync(accessToken).Result;
+
+                    if (userInfol == null)
+                    {
+                        return new AuthenticationResult
+                        {
+                            Errors = new[] { "Invalid Facebook User" }
+                        };
+                    }
+
+                    var userl = await _userManager.FindByEmailAsync(userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress);
+
+                    if (userl == null)
+                    {
+                        IdentityUser identityUser = new IdentityUser
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Email = userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress,
+                            UserName = userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress
+                        };
+                        var createdResult = await _userManager.CreateAsync(identityUser);
+                        if (!createdResult.Succeeded)
+                        {
+                            return new AuthenticationResult
+                            {
+                                Errors = new[] { "something went wrong when create user" }
+                            };
+                        }
+
+                        return await GenerateAuthenticationResultForUserAsync(identityUser);
+                    }
+                    return await GenerateAuthenticationResultForUserAsync(userl);
+            }
+            return null;
+        }
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

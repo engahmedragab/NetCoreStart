@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetCoreStartProject.Contracts.V1;
 using NetCoreStartProject.Contracts.V1.Requests;
 using NetCoreStartProject.Contracts.V1.Responses;
+using NetCoreStartProject.Enums;
 using NetCoreStartProject.Services;
 
 namespace NetCoreStartProject.Controllers.V1
@@ -12,10 +13,13 @@ namespace NetCoreStartProject.Controllers.V1
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
-        
-        public IdentityController(IIdentityService identityService)
+        private readonly IExternalProvidersIdentityService _externalProvidersIdentityService;
+
+        public IdentityController(IIdentityService identityService , IExternalProvidersIdentityService externalProvidersIdentityService)
         {
             _identityService = identityService;
+            _externalProvidersIdentityService = externalProvidersIdentityService;
+
         }
 
         [HttpPost(ApiRoutes.Identity.Register)]
@@ -77,6 +81,57 @@ namespace NetCoreStartProject.Controllers.V1
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
             var response = await _identityService.LoginAsync(request.Email, request.Password,Url ,Request.Scheme);
+
+            if (!response.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = response.Token,
+                RefreshToken = response.RefreshToken,
+                ConfirmationMail = response.ConfirmationEmailLink
+            });
+        }
+        
+        [HttpPost(ApiRoutes.Identity.ExternalProvidersLogin)]
+        public async Task<IActionResult> ExternalLogin([FromBody] UserExternalLoginRequest request)
+        {
+            var response = await _identityService.LoginWithExternalProvidersAsync(request.AccessToken, request.ExternalProvidersType);
+
+            if (!response.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = response.Token,
+                RefreshToken = response.RefreshToken,
+                ConfirmationMail = response.ConfirmationEmailLink
+            });
+        }
+        
+        
+        [HttpGet(ApiRoutes.Identity.ExternalProvidersLinkedinCallback)]
+        public async Task<IActionResult> ExternalLinkedinCallback(ExternalLinkedInCallbackRequest request)
+        {
+            var responseCallback = await _externalProvidersIdentityService.GetLinkedInCallbackAsync(request.Code, request.State);
+            if (responseCallback == null)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = new[] {"There is a error happen on LinkedIn Auth"}
+                });
+            }
+            var response = await _identityService.LoginWithExternalProvidersAsync(responseCallback.AccessToken, ExternalProvidersType.LinkedIn);
 
             if (!response.Success)
             {
@@ -235,6 +290,6 @@ namespace NetCoreStartProject.Controllers.V1
                 RefreshToken = response.RefreshToken
             });
         }
-
+        
     }
 }

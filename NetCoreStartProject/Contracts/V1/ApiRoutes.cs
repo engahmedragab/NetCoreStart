@@ -24,7 +24,9 @@
         public static class Identity
         {
             public const string Login = Base + "/identity/login";
-            
+
+            public const string ExternalProvidersLogin = Base + "/identity/externallogin";
+
             public const string Register = Base + "/identity/register";
 
             public const string MailConfarm = Base + "/identity/mailconfarm";
@@ -43,6 +45,8 @@
 
             public const string ResetPassword = Base + "/identity/resetpassword";
 
+            public const string ExternalProvidersLinkedinCallback = Version + "/auth/linkedin/callback";
+            
         }
     }
 }

@@ -7,4 +7,44 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <fb:login-button scope="public_profile,email"
+                     onlogin="checkLoginState();">
+    </fb:login-button>
+
+    <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78iv9xkcm7u79p&redirect_uri=https://localhost:5001/v1/auth/linkedin/callback&state=foobar&scope=r_liteprofile,r_emailaddress">LinkedIn</a>
 </div>
+
+@section Scripts
+{
+    <script>
+        window.fbAsyncInit = function() {
+        FB.init({
+        appId: '217586813774188',
+        cookie: true,
+        xfbml: true,
+        version: 'v5.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+        };
+
+        (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function checkLoginState() {
+
+            FB.getLoginStatus(function (response) {
+                @*statusChangeCallback(response);*@
+                console.log(response);
+            });
+
+        }
+    </script>
+}
