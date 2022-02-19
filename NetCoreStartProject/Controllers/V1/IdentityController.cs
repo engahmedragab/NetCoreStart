@@ -60,7 +60,7 @@ namespace NetCoreStartProject.Controllers.V1
                 });
             }
 
-            var response = await _identityService.ConfirmEmailAsync(request.UserId, HttpUtility.UrlDecode(request.ConfirmtionToken));
+            var response = await _identityService.ConfirmEmailAsync(request.UserId, HttpUtility.UrlDecode(request.Token));
 
             if (!response.Success)
             {

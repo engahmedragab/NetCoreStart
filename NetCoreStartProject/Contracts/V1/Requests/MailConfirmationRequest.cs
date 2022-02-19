@@ -9,6 +9,6 @@ namespace NetCoreStartProject.Contracts.V1.Requests
     {
         public string UserId { get; set; }
 
-        public string ConfirmtionToken { get; set; }
+        public string Token { get; set; }
     }
 }
