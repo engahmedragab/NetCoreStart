@@ -45,7 +45,9 @@ namespace NetCoreStartProject.Controllers.V1
 
             return Ok(new AuthSuccessResponse
             {
-                ConfirmationMail = response.ConfirmationEmailLink
+                ConfirmationMail = response.ConfirmationEmailLink,
+                Token = response.Token,
+                RefreshToken = response.RefreshToken
             });
         }
 

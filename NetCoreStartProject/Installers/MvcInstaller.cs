@@ -20,20 +20,22 @@ namespace NetCoreStartProject.Installers
             services.AddSingleton(jwtSettings);
 
             services.AddScoped<IIdentityService, IdentityService>();
-            services.AddMvc(options => { options.EnableEndpointRouting = false; }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options => { options.EnableEndpointRouting = false; });
             services.AddRazorPages();
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-                ValidateIssuer = false,
-                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                ValidateIssuer = true,
+                ValidateAudience = true,
                 RequireExpirationTime = false,
                 ValidateLifetime = true
             };
 
             services.AddSingleton(tokenValidationParameters);
-            
+            services.AddAuthorization();
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,6 +74,7 @@ namespace NetCoreStartProject.Installers
                     }}, new List<string>()} 
                 });
             });
+
         }
     }
 }

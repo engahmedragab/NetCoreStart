@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -66,12 +67,20 @@ namespace NetCoreStartProject.Services
                 };
             }
 
+            // we off the mail Confirmation
             var confirmationEmailLink = await _userManager.GenrateEmailConfirmationUrlAsync(newUser, url, reqestSchema);
-            return new AuthenticationResult
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+            var result = await _userManager.ConfirmEmailAsync(newUser, code);
+            if (!result.Succeeded)
             {
-                Success = true,
-                ConfirmationEmailLink = confirmationEmailLink
-            };
+                return new AuthenticationResult
+                {
+                    Success = true,
+                    ConfirmationEmailLink = HttpUtility.UrlEncode(confirmationEmailLink)
+                };
+            }
+            return await GenerateAuthenticationResultForUserAsync(newUser);
         }
 
         public async Task<AuthenticationResult> LoginAsync(string email, string password, IUrlHelper url = null, string reqestSchema = "")
@@ -96,13 +105,17 @@ namespace NetCoreStartProject.Services
                 };
             }
 
+            // we off the mail Confirmation
             if (!user.EmailConfirmed)
             {
                 var confirmationEmailLink = await _userManager.GenrateEmailConfirmationUrlAsync(user, url, reqestSchema);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+
                 return new AuthenticationResult
                 {
                     Success = true,
-                    ConfirmationEmailLink = confirmationEmailLink
+                    ConfirmationEmailLink = HttpUtility.UrlEncode(confirmationEmailLink)
                 };
             }
 
@@ -128,7 +141,7 @@ namespace NetCoreStartProject.Services
                     Errors = new[] { $"The User ID { userId } is invalid" }
                 };
             }
-
+            token = HttpUtility.UrlDecode(token);
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
             if (!result.Succeeded)
@@ -500,7 +513,6 @@ namespace NetCoreStartProject.Services
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-
             try
             {
                 var principal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
@@ -527,19 +539,22 @@ namespace NetCoreStartProject.Services
         private async Task<AuthenticationResult> GenerateAuthenticationResultForUserAsync(IdentityUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+            var key = Encoding.UTF8.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Iss, _jwtSettings.Issuer),
+                    new Claim(JwtRegisteredClaimNames.Aud, _jwtSettings.Audience),
                     new Claim("id", user.Id)
                 }),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
                 SigningCredentials =
-                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

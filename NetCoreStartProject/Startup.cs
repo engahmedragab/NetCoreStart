@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NetCoreStartProject.Installers;
 using NetCoreStartProject.Options;
+using WebApi.Helpers;
 
 namespace NetCoreStartProject
 {
@@ -65,6 +66,7 @@ namespace NetCoreStartProject
                 app.UseHsts();
             }
 
+            app.UseMiddleware<JwtMiddleware>();
 
             var swaggerOptions = new SwaggerOptions();
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
@@ -79,11 +81,11 @@ namespace NetCoreStartProject
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
-            app.UseMvc();
-
             app.UseAuthentication();
+            app.UseRouting();
             app.UseAuthorization();
+           
+            app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {

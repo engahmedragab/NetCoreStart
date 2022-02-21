@@ -12,7 +12,8 @@ using NetCoreStartProject.Services;
 
 namespace NetCoreStartProject.Controllers.V1
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
+    [ApiController]
     public class PostsController : Controller
     {
         private readonly IPostService _postService;
