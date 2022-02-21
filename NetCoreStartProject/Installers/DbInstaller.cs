@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreStartProject.Data;
+using NetCoreStartProject.Domain;
 using NetCoreStartProject.Security;
 using NetCoreStartProject.Services;
 
@@ -16,10 +17,10 @@ namespace NetCoreStartProject.Installers
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>()
+            //services.AddDefaultIdentity<User>()
             //    .AddEntityFrameworkStores<DataContext>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<User, IdentityRole>(options =>
             {
                 //options.Password.RequiredLength = 10;
                 //options.Password.RequiredUniqueChars = 3;
@@ -32,7 +33,7 @@ namespace NetCoreStartProject.Installers
             })
           .AddEntityFrameworkStores<DataContext>()
           .AddDefaultTokenProviders()
-          .AddTokenProvider<CustomEmailConfirmationTokenProvider<IdentityUser>>("CustomEmailConfirmation");
+          .AddTokenProvider<CustomEmailConfirmationTokenProvider<User>>("CustomEmailConfirmation");
 
             services.Configure<DataProtectionTokenProviderOptions>(o =>
                         o.TokenLifespan = TimeSpan.FromHours(5));

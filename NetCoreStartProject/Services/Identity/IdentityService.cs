@@ -15,18 +15,18 @@ using NetCoreStartProject.Enums;
 using NetCoreStartProject.Extensions;
 using NetCoreStartProject.Options;
 
-namespace NetCoreStartProject.Services
+namespace NetCoreStartProject.Services.Identity
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly IExternalProvidersIdentityService _externalProvidersIdentityService;
         private readonly DataContext _context;
         
         public IdentityService (
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             JwtSettings jwtSettings,
             TokenValidationParameters tokenValidationParameters,
             IExternalProvidersIdentityService externalProvidersIdentityService,
@@ -51,7 +51,7 @@ namespace NetCoreStartProject.Services
                 };
             }
 
-            var newUser = new IdentityUser
+            var newUser = new User
             {
                 Email = email,
                 UserName = email
@@ -456,7 +456,7 @@ namespace NetCoreStartProject.Services
 
                     if (user == null)
             {
-                IdentityUser identityUser = new IdentityUser
+                User identityUser = new User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Email = userInfo.Email,
@@ -489,7 +489,7 @@ namespace NetCoreStartProject.Services
 
                     if (userl == null)
                     {
-                        IdentityUser identityUser = new IdentityUser
+                        User identityUser = new User
                         {
                             Id = Guid.NewGuid().ToString(),
                             Email = userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress,
@@ -536,7 +536,7 @@ namespace NetCoreStartProject.Services
                        StringComparison.InvariantCultureIgnoreCase);
         }
 
-        private async Task<AuthenticationResult> GenerateAuthenticationResultForUserAsync(IdentityUser user)
+        private async Task<AuthenticationResult> GenerateAuthenticationResultForUserAsync(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_jwtSettings.Secret);

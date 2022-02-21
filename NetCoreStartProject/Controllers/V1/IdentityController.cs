@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreStartProject.Contracts.V1;
-using NetCoreStartProject.Contracts.V1.Requests;
-using NetCoreStartProject.Contracts.V1.Responses;
+using NetCoreStartProject.Contracts.V1.Requests.Identity;
+using NetCoreStartProject.Contracts.V1.Responses.Identity;
 using NetCoreStartProject.Enums;
-using NetCoreStartProject.Services;
+using NetCoreStartProject.Services.Identity;
 
 namespace NetCoreStartProject.Controllers.V1
 {

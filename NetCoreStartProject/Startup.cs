@@ -38,8 +38,8 @@ namespace NetCoreStartProject
             //services.AddDbContext<DataContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
-            
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+            //services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<DataContext>();
 
             //services.AddControllers();

@@ -7,7 +7,7 @@ using NetCoreStartProject.Domain;
 
 namespace NetCoreStartProject.Data
 {
-    public class DataContext : IdentityDbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)

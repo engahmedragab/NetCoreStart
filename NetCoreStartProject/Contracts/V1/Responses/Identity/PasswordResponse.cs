@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NetCoreStartProject.Controllers.V1
+namespace NetCoreStartProject.Contracts.V1.Responses.Identity
 {
     internal class PasswordResponse
     {

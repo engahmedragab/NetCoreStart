@@ -1,7 +1,7 @@
 ﻿using NetCoreStartProject.Contracts.V1.Responses.ExternalProviders;
 using System.Threading.Tasks;
 
-namespace NetCoreStartProject.Services
+namespace NetCoreStartProject.Services.Identity
 {
     public interface IExternalProvidersIdentityService
     {

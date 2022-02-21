@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreStartProject.Options;
-using NetCoreStartProject.Services;
+using NetCoreStartProject.Services.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

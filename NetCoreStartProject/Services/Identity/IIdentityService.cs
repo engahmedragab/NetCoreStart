@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetCoreStartProject.Domain;
 using NetCoreStartProject.Enums;
 
-namespace NetCoreStartProject.Services
+namespace NetCoreStartProject.Services.Identity
 {
     public interface IIdentityService
     {

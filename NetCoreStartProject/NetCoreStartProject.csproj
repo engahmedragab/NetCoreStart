@@ -25,4 +25,29 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Contracts\V1\Requests\Arrangements\" />
+    <Folder Include="Contracts\V1\Requests\Categories\" />
+    <Folder Include="Contracts\V1\Requests\Mineinfo\" />
+    <Folder Include="Contracts\V1\Requests\Items\" />
+    <Folder Include="Contracts\V1\Requests\Lookups\" />
+    <Folder Include="Contracts\V1\Requests\Offers\" />
+    <Folder Include="Contracts\V1\Requests\Preparations\" />
+    <Folder Include="Contracts\V1\Responses\Arrangements\" />
+    <Folder Include="Contracts\V1\Responses\Categories\" />
+    <Folder Include="Contracts\V1\Responses\Mineinfo\" />
+    <Folder Include="Contracts\V1\Responses\Items\" />
+    <Folder Include="Contracts\V1\Responses\Lookups\" />
+    <Folder Include="Contracts\V1\Responses\Offers\" />
+    <Folder Include="Contracts\V1\Responses\Preparations\" />
+    <Folder Include="Services\Arrangements\" />
+    <Folder Include="Services\Categories\" />
+    <Folder Include="Services\Mineinfo\" />
+    <Folder Include="Services\Items\" />
+    <Folder Include="Services\Lookups\" />
+    <Folder Include="Services\Offers\" />
+    <Folder Include="Services\Preparations\" />
+  </ItemGroup>
+
 </Project>

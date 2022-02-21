@@ -1,4 +1,4 @@
-namespace NetCoreStartProject.Contracts.V1.Responses
+namespace NetCoreStartProject.Contracts.V1.Responses.Identity
 {
     public class AuthSuccessResponse
     {

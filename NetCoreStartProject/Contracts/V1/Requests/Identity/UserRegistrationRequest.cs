@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace NetCoreStartProject.Contracts.V1.Requests
+namespace NetCoreStartProject.Contracts.V1.Requests.Identity
 {
     public class UserRegistrationRequest
     {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreStartProject.Domain;
 
 namespace NetCoreStartProject.Extensions
 {
@@ -19,7 +20,7 @@ namespace NetCoreStartProject.Extensions
         }
 
 
-        public static async Task<string> GenrateEmailConfirmationUrlAsync(this UserManager<IdentityUser> userManager , IdentityUser User , IUrlHelper Url , string RequestSchema)
+        public static async Task<string> GenrateEmailConfirmationUrlAsync(this UserManager<User> userManager , User User , IUrlHelper Url , string RequestSchema)
         {
             if (User == null || string.IsNullOrEmpty(User.Id))
             {
@@ -31,7 +32,7 @@ namespace NetCoreStartProject.Extensions
             return url;
         }
 
-        public static async Task<string> GenrateForgetPasswardUrlAsync(this UserManager<IdentityUser> userManager, IdentityUser User, IUrlHelper Url, string RequestSchema)
+        public static async Task<string> GenrateForgetPasswardUrlAsync(this UserManager<User> userManager, User User, IUrlHelper Url, string RequestSchema)
         {
             if (User == null || string.IsNullOrEmpty(User.Id))
             {

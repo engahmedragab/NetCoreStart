@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace NetCoreStartProject.Services
+namespace NetCoreStartProject.Services.Identity
 {
     public class ExternalProvidersIdentityService : IExternalProvidersIdentityService
     {

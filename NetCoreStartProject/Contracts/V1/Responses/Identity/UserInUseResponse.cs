@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NetCoreStartProject.Contracts.V1.Responses
+namespace NetCoreStartProject.Contracts.V1.Responses.Identity
 {
     public class UserInUseResponse
     {
