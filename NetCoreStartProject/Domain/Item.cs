@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading;
 
@@ -10,9 +11,6 @@ namespace NetCoreStartProject.Domain
         public string NameAr { get; set; }
         [Required]
         public string NameEn { get; set; }
-        [NotMapped]
-        public string Name { get { return Thread.CurrentThread.CurrentCulture.Name == "en" ? NameEn : NameAr; } }
-
         public string DescriptionAr { get; set; }
         public string DescriptionEn { get; set; }
 
@@ -27,5 +25,6 @@ namespace NetCoreStartProject.Domain
         [ForeignKey("ItemDetails")]
         public int ItemDetailsId { get; set; }
         public ItemDetails ItemDetails { get; set; }
+
     }
 }

@@ -5,10 +5,10 @@ namespace NetCoreStartProject.Domain
 {
     public class ItemDetailsHistory : BaseEntity
     {
-        public string Utilization { get; set; }
+        public string Utilization { get; set; } // How to use 
         public Importance Importance { get; set; }
         public Priority priority { get; set; }
-        public string Usage { get; set; }
+        public string Usage { get; set; } // what the use 
         public int Quantity { get; set; }
         public string Represent { get; set; }
         public RepresentType RepresentType { get; set; }

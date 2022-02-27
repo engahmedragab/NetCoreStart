@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OurBride</title>
+    <!-- You can use Open Graph tags to customize link previews.-->
+    <meta property="og:url"           content="https://ourbride.com/Invitations/invitation" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="OurBride - Invitations" />
+    <meta property="og:description"   content="Create your invitation with OurBride" />
+    <!-- <meta property="og:image"         content="https://www.ourbride.com/images/1.jpg" /> -->
+    <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="~/css/site.css" /> -->
+    <!-- <link rel="stylesheet" href="~/css/time-responsive.css" /> -->
+   <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/bootstrap.min.css" >
+    <!-- Fonts -->
+    <link rel="stylesheet" type="text/css" href="~/fonts/invitations/line-icons.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/slicknav.css">
+    <!-- Off Canvas Menu -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/menu_sideslide.css">
+    <!-- Color Switcher -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/vegas.min.css">
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/animate.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/main.css">
+    <!-- Responsive Style -->
+    <link rel="stylesheet" type="text/css" href="~/css/invitations/responsive.css">
+</head>
+<body >
+    <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+            </script>
+
+
+   <!-- <div class="container">
+        <main role="main" class="pb-3">-->
+            @RenderBody()
+    <!--</main>
+    </div>-->
+
+   
+    <!--<script src="~/lib/jquery/dist/jquery.min.js"></script> -->
+    <!--<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!--<script src="~/js/site.js" asp-append-version="true"></script> -->
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/js/invitations/jquery-min.js"></script>
+    <script src="~/js/invitations/popper.min.js"></script>
+    <script src="~/js/invitations/bootstrap.min.js"></script>
+    <script src="~/js/invitations/vegas.min.js"></script>
+    <script src="~/js/invitations/jquery.countdown.min.js"></script>
+    <script src="~/js/invitations/classie.js"></script>
+    <script src="~/js/invitations/jquery.nav.js"></script>
+    <script src="~/js/invitations/jquery.easing.min.js"></script> 
+    <script src="~/js/invitations/wow.js"></script>
+    <script src="~/js/invitations/jquery.slicknav.js"></script>
+    <script src="~/js/invitations/main.js"></script>
+    <script src="~/js/invitations/form-validator.min.js"></script>
+    <script src="~/js/invitations/contact-form-script.min.js"></script>
+     <script type="text/javascript">
+      $("#example").vegas({
+          timer: false,
+          delay: 5000,
+          transitionDuration: 2000,
+          transition: "blur",
+          color: "black",
+          slides: [
+              { src: "/images/invitations/1.jpg" },
+              { src: "/images/invitations/2.jpg" },
+              { src: "/images/invitations/3.jpg" },
+              { src: "/images/invitations/4.jpg" },
+              { src: "/images/invitations/5.jpg" }
+             
+          ]
+      });
+    </script>
+    <style>
+        .vegas-wrapper{
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,97 @@
+﻿@page
+@using Microsoft.AspNetCore.Http;
+@model NetCoreStartProject.Pages.Invitations.InvitationModel
+@{
+    ViewData["Title"] = "Wedding Invitation";
+    Layout = "/Pages/Shared/_InvitationLayout.cshtml";
+}
+
+<!--<div class="text-center" style="width:100%; height:1000px; color:white;">-->
+   
+    <div class="bg-wraper overlay has-vignette">
+      <div id="example" class="slider opacity-50 vegas-container" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)); height: 983px;"></div>
+    </div>
+
+    <!-- Coundown Section Start -->
+    <section class="countdown-timer">
+    <div class="row pl-5">
+        <a href="https://Our-Bride.com"><img src="~/images/logoWeb.png" style="height: 60px" /></a>
+    </div>
+      <div class="container">
+        <div class="row text-center">
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="text-lg md:text-2xl italic">March <span class="text-md md:text-xl"> 6, </span>2022</div>
+            <p id="date" style="display:none">2022/3/6</p>
+            <div>
+                <div class="p-4 w-full mx-5 md:w-1/2 mx-auto italic">
+                    <h1 class="p-2 text-xl"> Marawan & Rana</h1>
+                    <h1> قاعة السرايا</h1>
+                    <h1> خلف مسجد الشرطة</h1>
+                    <div> مصر ,القاهرة, العباسية</div>
+                </div>
+            </div>
+            <!--<div class="heading-count">
+               <h2>WE ARE LAUNCHING IN</h2>
+            </div>-->
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row time-countdown justify-content-center">
+              <div id="clock" class="time-count"></div><br />
+            </div>
+            <h5 id="expiredate">
+                .افراحنا مش هتكمل الا بيكو ودعواتكم الجميله ووجودكم معانا تزيدنا سعاده
+            </h5>             
+            <div class="button-group">
+              <a href="#" class="btn btn-border" style="padding: 5px 8px; font-size: 11px; margin: 0px !important;" onclick="CopyLink()">Copy Link</a>
+               <!-- Your share button code -->
+                <div class="fb-share-button m-3" 
+                data-href="https://www.ourbride.com" 
+                data-layout="button"
+                data-size="large">dsadas
+                </div>
+              <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button m-3" data-show-count="false">Tweet</a>
+              <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+              <a href="https://api.whatsapp.com/send?text=this is my wedding invetation @($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}")" 
+                 data-action="share/whatsapp/share" class="btn btn-common m-3" style="padding: 5px 8px; font-size: 11px; background-color:#25D366;">
+                 <b><img src="~/fonts/whatsapp.svg" style="height:17px" /> Share</b>
+             </a>
+
+            </div>
+            <div class="social mt-4">
+              <a class="facebook" href="https://www.facebook.com/OurBrideCom"><i class="lni-facebook-filled"></i></a>
+              <a class="twitter" href="https://twitter.com/OurbrideCom"><i class="lni-twitter-filled"></i></a>
+              <a class="instagram" href="https://www.instagram.com/ourbridecom"><i class="lni-instagram-filled"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - <a href="https://Our-Bride.com">OurBride</a> - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+    </section>
+    <!-- Coundown Section End -->
+
+    <!-- Preloader -->
+    <div id="preloader">
+      <div class="loader" id="loader-1"></div>
+    </div>
+    <!-- End Preloader -->
+<!-- </div> -->
+<script>
+function CopyLink() {
+  /* Get the text field */
+  var copyText = '@($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}")';
+
+  /* Select the text field */
+  copyText = copyText.slice(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText);
+  
+  /* Alert the copied text */
+  alert("Copied the Invitation Link: " + copyText);
+}
+</script>

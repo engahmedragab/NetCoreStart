@@ -21,6 +21,7 @@ namespace NetCoreStartProject.Domain
         public double Price { get; set; }
         public string Additions { get; set; }
         public ICollection<ItemDetailsHistory> ItemDetailsHistories { get; set; }
+        public ICollection<Review> Reviews { get; set; }
 
         [ForeignKey("Item")]
         public int ItemId { get; set; }
