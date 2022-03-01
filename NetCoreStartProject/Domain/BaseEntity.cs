@@ -19,6 +19,8 @@ namespace NetCoreStartProject.Domain
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
+
+        public string Slug { get; set; } = String.Empty;
     }
 
   public abstract class BaseEntity : Base

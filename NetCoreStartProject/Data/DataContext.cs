@@ -15,7 +15,10 @@ namespace NetCoreStartProject.Data
         }
 
         public DbSet<Post> Posts { get; set; }
-
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Region> Regions { get; set; }
+
     }
 }

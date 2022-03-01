@@ -9,6 +9,7 @@ namespace NetCoreStartProject.Services
     public interface IGenericRepository<TEntity> where TEntity : Base
     {
         TEntity Add(TEntity entity);
+        public TEntity Add(TEntity entity, string slugtitle);
         void AddRange(IEnumerable<TEntity> entities);
         TEntity Delete(TEntity entity);
         TEntity HardDelete(TEntity entity);

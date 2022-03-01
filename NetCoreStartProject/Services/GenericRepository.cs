@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿    using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic; 
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Extensions;
 
 namespace NetCoreStartProject.Services
 {
@@ -25,7 +26,11 @@ namespace NetCoreStartProject.Services
         {
             return _context.Set<TEntity>().Add(entity).Entity;
         }
-
+        public TEntity Add(TEntity entity, string slugtitle)
+        {
+            entity.Slug = GenrateSlug(slugtitle);
+            return _context.Set<TEntity>().Add(entity).Entity;
+        }
         public void AddRange(IEnumerable<TEntity> entities)
         {
             _context.Set<TEntity>().AddRange(entities);
@@ -142,6 +147,16 @@ namespace NetCoreStartProject.Services
         //    }
         //    base.Dispose(disposing);
         //}
+
+        private string GenrateSlug(string title)
+        {
+            var slug = title.GenrateSlug();
+            while (!_context.Set<TEntity>().Any(x => x.Slug == slug))
+            {
+                slug = title.GenrateSlug();
+            }
+            return slug;
+        }
 
 
     }
