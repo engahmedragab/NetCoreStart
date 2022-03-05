@@ -20,7 +20,7 @@ namespace NetCoreStartProject.Domain
 
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
 
-        public string Slug { get; set; } = String.Empty;
+        public string? Slug { get; set; } = String.Empty;
     }
 
   public abstract class BaseEntity : Base

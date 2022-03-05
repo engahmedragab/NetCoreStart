@@ -31,24 +31,7 @@ namespace NetCoreStartProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.InstallServicesInAssembly(Configuration);
-
-
-            //services.AddDbContext<DataContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
-            //services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<DataContext>();
-
-            //services.AddControllers();
-            //// Register the Swagger generator, defining 1 or more Swagger documents
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo{ Title = "My API", Version = "v1" });
-            //});
-            //services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +49,7 @@ namespace NetCoreStartProject
                 app.UseHsts();
             }
 
-            app.UseMiddleware<JwtMiddleware>();
+            //app.UseMiddleware<JwtMiddleware>();
 
             var swaggerOptions = new SwaggerOptions();
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);

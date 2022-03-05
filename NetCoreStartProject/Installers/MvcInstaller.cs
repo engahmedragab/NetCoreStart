@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +22,10 @@ namespace NetCoreStartProject.Installers
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
+
+            var cookieSettings = new CookieSettings();
+            configuration.Bind(nameof(cookieSettings), cookieSettings);
+            services.AddSingleton(cookieSettings);
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddMvc(options => { options.EnableEndpointRouting = false; });
@@ -38,16 +46,37 @@ namespace NetCoreStartProject.Installers
             services.AddAuthorization();
             services.AddAuthentication(x =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(x =>
                 {
                     x.SaveToken = true;
                     x.TokenValidationParameters = tokenValidationParameters;
-                });
-            
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,cfg => cfg.SlidingExpiration = true);
+            //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            //{
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+            //    options.SlidingExpiration = true;
+            //    options.AccessDeniedPath = cookieSettings.AccessDeniedPath;
+            //    options.LoginPath = cookieSettings.LoginPath;
+
+            //});
+
+            var multiSchemePolicy = new AuthorizationPolicyBuilder(
+                                        CookieAuthenticationDefaults.AuthenticationScheme,
+                                        JwtBearerDefaults.AuthenticationScheme)
+                                        .RequireAuthenticatedUser()
+                                        .Build();
+
+            services.AddAuthorization(o => o.DefaultPolicy = multiSchemePolicy);
+
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //services.AddSession();
+
             services.AddSwaggerGen(x =>
             {
                 

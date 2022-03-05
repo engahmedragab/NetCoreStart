@@ -1,0 +1,121 @@
+﻿@page
+@model NetCoreStartProject.Pages.Invitations.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Invitation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Invitation.IsDone" /> @Html.DisplayNameFor(model => model.Invitation.IsDone)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.UserId" class="control-label"></label>
+                <select asp-for="Invitation.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="Invitation.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.Bride" class="control-label"></label>
+                <input asp-for="Invitation.Bride" class="form-control" />
+                <span asp-validation-for="Invitation.Bride" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.Groom" class="control-label"></label>
+                <input asp-for="Invitation.Groom" class="form-control" />
+                <span asp-validation-for="Invitation.Groom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.WeddingDate" class="control-label"></label>
+                <input asp-for="Invitation.WeddingDate" class="form-control" />
+                <span asp-validation-for="Invitation.WeddingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.EngagementDate" class="control-label"></label>
+                <input asp-for="Invitation.EngagementDate" class="form-control" />
+                <span asp-validation-for="Invitation.EngagementDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.HennaDate" class="control-label"></label>
+                <input asp-for="Invitation.HennaDate" class="form-control" />
+                <span asp-validation-for="Invitation.HennaDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.CrownDate" class="control-label"></label>
+                <input asp-for="Invitation.CrownDate" class="form-control" />
+                <span asp-validation-for="Invitation.CrownDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.CountryId" class="control-label"></label>
+                <select asp-for="Invitation.CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
+                <span asp-validation-for="Invitation.CountryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.CityId" class="control-label"></label>
+                <select asp-for="Invitation.CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+                <span asp-validation-for="Invitation.CityId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.Area" class="control-label"></label>
+                <input asp-for="Invitation.Area" class="form-control" />
+                <span asp-validation-for="Invitation.Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.Weddinghole" class="control-label"></label>
+                <input asp-for="Invitation.Weddinghole" class="form-control" />
+                <span asp-validation-for="Invitation.Weddinghole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.WeddingAddress" class="control-label"></label>
+                <input asp-for="Invitation.WeddingAddress" class="form-control" />
+                <span asp-validation-for="Invitation.WeddingAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.ResponseFrom" class="control-label"></label>
+                <select asp-for="Invitation.ResponseFrom" class="form-control"></select>
+                <span asp-validation-for="Invitation.ResponseFrom" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Invitation.Id" />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Invitation.IsDeleted" /> @Html.DisplayNameFor(model => model.Invitation.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.CreationDate" class="control-label"></label>
+                <input asp-for="Invitation.CreationDate" class="form-control" />
+                <span asp-validation-for="Invitation.CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.LastModifiedDate" class="control-label"></label>
+                <input asp-for="Invitation.LastModifiedDate" class="form-control" />
+                <span asp-validation-for="Invitation.LastModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Invitation.Slug" class="control-label"></label>
+                <input asp-for="Invitation.Slug" class="form-control" />
+                <span asp-validation-for="Invitation.Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

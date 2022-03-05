@@ -61,7 +61,7 @@ namespace NetCoreStartProject.Services
                 return false;
             }
 
-            if (post.UserId != userId)
+            if (post.UserId.ToString() != userId)
             {
                 return false;
             }

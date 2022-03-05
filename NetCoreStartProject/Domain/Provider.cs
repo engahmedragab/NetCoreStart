@@ -25,9 +25,9 @@ namespace NetCoreStartProject.Domain
         public int CityId { get; set; }
         public City City { get; set; }
 
-        [ForeignKey("Region")]
-        public int? RegionId { get; set; }
-        public Region Region { get; set; }
+        //[ForeignKey("Region")]
+        //public int? RegionId { get; set; }
+        //public Region Region { get; set; }
 
         public string Address { get; set; }
         public string Address2 { get; set; }

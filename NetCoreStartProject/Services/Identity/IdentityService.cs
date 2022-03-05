@@ -458,7 +458,7 @@ namespace NetCoreStartProject.Services.Identity
             {
                 User identityUser = new User
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid(),
                     Email = userInfo.Email,
                     UserName = userInfo.Email
                 };
@@ -491,7 +491,7 @@ namespace NetCoreStartProject.Services.Identity
                     {
                         User identityUser = new User
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = Guid.NewGuid(),
                             Email = userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress,
                             UserName = userInfol.Elements.FirstOrDefault().ElementHandle.EmailAddress
                         };
@@ -510,6 +510,7 @@ namespace NetCoreStartProject.Services.Identity
             }
             return null;
         }
+       
         private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -544,13 +545,13 @@ namespace NetCoreStartProject.Services.Identity
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Iss, _jwtSettings.Issuer),
                     new Claim(JwtRegisteredClaimNames.Aud, _jwtSettings.Audience),
-                    new Claim("id", user.Id)
+                    new Claim("id", user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
                 SigningCredentials =

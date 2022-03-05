@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +24,19 @@ namespace NetCoreStartProject.Extensions
             return httpContext.User.Claims.Single(x => x.Type == "id").Value;
         }
 
+        public static Guid GetUserGuid(this HttpContext httpContext)
+        {
+            if (httpContext.User == null)
+            {
+                return Guid.Empty;
+            }
+
+            return new Guid(httpContext.User.Claims.Single(x => x.Type == "id").Value);
+        }
 
         public static async Task<string> GenrateEmailConfirmationUrlAsync(this UserManager<User> userManager , User User , IUrlHelper Url , string RequestSchema)
         {
-            if (User == null || string.IsNullOrEmpty(User.Id))
+            if (User == null || string.IsNullOrEmpty(User.Id.ToString()))
             {
                 return string.Empty;
             }
@@ -38,7 +48,7 @@ namespace NetCoreStartProject.Extensions
 
         public static async Task<string> GenrateForgetPasswardUrlAsync(this UserManager<User> userManager, User User, IUrlHelper Url, string RequestSchema)
         {
-            if (User == null || string.IsNullOrEmpty(User.Id))
+            if (User == null || string.IsNullOrEmpty(User.Id.ToString()))
             {
                 return string.Empty;
             }

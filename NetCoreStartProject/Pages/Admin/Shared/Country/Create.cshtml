@@ -1,0 +1,117 @@
+﻿@page
+@model NetCoreStartProject.Pages.Admin.Shared.Country.CreateModel
+
+<h4>Country</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Country.Code" class="control-label"></label>
+                <input asp-for="Country.Code" class="form-control" />
+                <span asp-validation-for="Country.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.Latitude" class="control-label"></label>
+                <input asp-for="Country.Latitude" class="form-control" />
+                <span asp-validation-for="Country.Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.Longitude" class="control-label"></label>
+                <input asp-for="Country.Longitude" class="form-control" />
+                <span asp-validation-for="Country.Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.FlagCode" class="control-label"></label>
+                <input asp-for="Country.FlagCode" class="form-control" />
+                <span asp-validation-for="Country.FlagCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.CapitalNames" class="control-label"></label>
+                <input asp-for="Country.CapitalNames" class="form-control" />
+                <span asp-validation-for="Country.CapitalNames" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.CurrencyCodes" class="control-label"></label>
+                <input asp-for="Country.CurrencyCodes" class="form-control" />
+                <span asp-validation-for="Country.CurrencyCodes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.PhoneCodes" class="control-label"></label>
+                <input asp-for="Country.PhoneCodes" class="form-control" />
+                <span asp-validation-for="Country.PhoneCodes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.alpha2" class="control-label"></label>
+                <input asp-for="Country.alpha2" class="form-control" />
+                <span asp-validation-for="Country.alpha2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.alpha3" class="control-label"></label>
+                <input asp-for="Country.alpha3" class="form-control" />
+                <span asp-validation-for="Country.alpha3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.NameAr" class="control-label"></label>
+                <input asp-for="Country.NameAr" class="form-control" />
+                <span asp-validation-for="Country.NameAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.NameEn" class="control-label"></label>
+                <input asp-for="Country.NameEn" class="form-control" />
+                <span asp-validation-for="Country.NameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.DescriptionAr" class="control-label"></label>
+                <input asp-for="Country.DescriptionAr" class="form-control" />
+                <span asp-validation-for="Country.DescriptionAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.DescriptionEn" class="control-label"></label>
+                <input asp-for="Country.DescriptionEn" class="form-control" />
+                <span asp-validation-for="Country.DescriptionEn" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Country.CreatedBy" class="control-label"></label>
+                <select asp-for="Country.CreatedBy" class ="form-control" asp-items="ViewBag.CreatedBy"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.LastModifiedBy" class="control-label"></label>
+                <input asp-for="Country.LastModifiedBy" class="form-control" />
+                <span asp-validation-for="Country.LastModifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Country.IsDeleted" /> @Html.DisplayNameFor(model => model.Country.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.CreationDate" class="control-label"></label>
+                <input asp-for="Country.CreationDate" class="form-control" />
+                <span asp-validation-for="Country.CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.LastModifiedDate" class="control-label"></label>
+                <input asp-for="Country.LastModifiedDate" class="form-control" />
+                <span asp-validation-for="Country.LastModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country.Slug" class="control-label"></label>
+                <input asp-for="Country.Slug" class="form-control" />
+                <span asp-validation-for="Country.Slug" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

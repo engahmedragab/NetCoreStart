@@ -12,7 +12,7 @@ namespace NetCoreStartProject.Domain
 
         public string Name { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }

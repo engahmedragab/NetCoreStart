@@ -85,7 +85,7 @@ namespace NetCoreStartProject.Controllers.V1
             var post = new Post
             {
                 Name = postRequest.Name,
-                UserId = HttpContext.GetUserId()
+                UserId = HttpContext.GetUserGuid()
             };
 
             await _postService.CreatePostAsync(post);

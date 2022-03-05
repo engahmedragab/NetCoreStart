@@ -13,4 +13,12 @@
         Item = 0,
         Service = 1
     }
+
+    public enum ResponseFrom
+    {
+        Facebook = 0,
+        Twitter = 1,
+        Youtube = 2,
+        Web = 3
+    }
 }

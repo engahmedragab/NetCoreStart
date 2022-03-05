@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetCoreStartProject.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreStartProject.Domain
@@ -11,8 +12,10 @@ namespace NetCoreStartProject.Domain
             LastModifiedDate = DateTime.Now;
         }
 
+        public bool IsDone { get; set; }
+
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
 
         public string Bride { get; set; }
@@ -23,8 +26,6 @@ namespace NetCoreStartProject.Domain
         public DateTime? HennaDate { get; set; }
         public DateTime? CrownDate { get; set; }
 
-        public string WeddingVenue { get; set; }
-        public string WeddingVenueAddress { get; set; }
         
         [ForeignKey("Country")]
         public int CountryId { get; set; }
@@ -34,9 +35,15 @@ namespace NetCoreStartProject.Domain
         public int CityId { get; set; }
         public City City { get; set; }
 
-        [ForeignKey("Region")]
-        public int? RegionId { get; set; }
-        public Region Region { get; set; }
+        public string Area { get; set; }
+        public string Weddinghole { get; set; }
+        public string WeddingAddress { get; set; }
+
+        //[ForeignKey("Region")]
+        //public int? RegionId { get; set; }
+        //public Region Region { get; set; }
+
+        public ResponseFrom ResponseFrom { get; set; }
 
 
     }

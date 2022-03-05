@@ -1,0 +1,139 @@
+﻿@page
+@model NetCoreStartProject.Pages.Invitations.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].IsDone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Bride)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Groom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].WeddingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].EngagementDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].HennaDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].CrownDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Weddinghole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].WeddingAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].ResponseFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].LastModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invitation[0].Slug)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Invitation) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bride)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Groom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeddingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngagementDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HennaDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CrownDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.NameAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.NameAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weddinghole)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeddingAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponseFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

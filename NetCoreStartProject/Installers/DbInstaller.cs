@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Options;
 using NetCoreStartProject.Security;
 using NetCoreStartProject.Services;
 
@@ -20,7 +22,7 @@ namespace NetCoreStartProject.Installers
             //services.AddDefaultIdentity<User>()
             //    .AddEntityFrameworkStores<DataContext>();
 
-            services.AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentity<User, Role>(options =>
             {
                 //options.Password.RequiredLength = 10;
                 //options.Password.RequiredUniqueChars = 3;
@@ -34,6 +36,14 @@ namespace NetCoreStartProject.Installers
           .AddEntityFrameworkStores<DataContext>()
           .AddDefaultTokenProviders()
           .AddTokenProvider<CustomEmailConfirmationTokenProvider<User>>("CustomEmailConfirmation");
+
+
+            var mailSettings = new MailSettings();
+            configuration.Bind(nameof(mailSettings), mailSettings);
+            services.AddSingleton(mailSettings);
+
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IEmailSender, MailService>();
 
             services.Configure<DataProtectionTokenProviderOptions>(o =>
                         o.TokenLifespan = TimeSpan.FromHours(5));

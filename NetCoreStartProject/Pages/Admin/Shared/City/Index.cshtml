@@ -1,0 +1,114 @@
+﻿@page
+@model NetCoreStartProject.Pages.Admin.Shared.City.IndexModel
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].FlagCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].NameAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].NameEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].DescriptionAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].DescriptionEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].LastModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].CreatedByUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].LastModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City[0].Slug)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.City) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlagCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.NameAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedByUser.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
