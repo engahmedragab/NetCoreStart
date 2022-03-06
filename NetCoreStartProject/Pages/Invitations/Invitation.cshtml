@@ -12,10 +12,6 @@
       <div id="example" class="slider opacity-50 vegas-container" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)); height: 983px;"></div>
     </div>
 
-    <h3>@Model.Name</h3>
-    <form method="post"><button class="btn btn-default">Click to post</button></form>
-    <p><a href="/" class="btn btn-default">Click to Get</a></p>
-
     <!-- Coundown Section Start -->
     <section class="countdown-timer">
     <div class="row pl-5">
@@ -25,14 +21,15 @@
         <div class="row text-center">
 
           <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="text-lg md:text-2xl italic">March <span class="text-md md:text-xl"> 6, </span>2022</div>
+            @*<div class="text-lg md:text-2xl italic"> March <span class="text-md md:text-xl"> 6, </span>2022</div>*@
+            <div class="text-lg md:text-2xl italic"> @Model.Invitation.WeddingDate.ToLongDateString()</div>
             <p id="date" style="display:none">2022/3/6</p>
             <div>
                 <div class="p-4 w-full mx-5 md:w-1/2 mx-auto italic">
-                    <h1 class="p-2 text-xl"> Marawan & Rana</h1>
-                    <h1> قاعة السرايا</h1>
-                    <h1> خلف مسجد الشرطة</h1>
-                    <div> مصر ,القاهرة, العباسية</div>
+                    <h1 class="p-2 text-xl"> @Model.Invitation.Groom & @Model.Invitation.Bride</h1>
+                    <h2> @Model.Invitation.Weddinghole</h2>
+                    <h4> @Model.Invitation.WeddingAddress</h4>
+                    <h4> @Model.Invitation.Country.NameAr ,@Model.Invitation.City.NameAr, @Model.Invitation.Area</h4>
                 </div>
             </div>
             <!--<div class="heading-count">

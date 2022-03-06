@@ -92,12 +92,20 @@ namespace NetCoreStartProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    var roles = await _userManager.GetRolesAsync(user);
+
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, Input.Email),
-                        new Claim("FullName", Input.Email),
-                        new Claim(ClaimTypes.Role, "Administrator"),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim("id", user.Id.ToString())
                     };
+                    foreach (var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role,role));
+                    }
 
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);

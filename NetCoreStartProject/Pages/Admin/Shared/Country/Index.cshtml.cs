@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreStartProject.Pages.Admin.Shared.Country
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class IndexModel : PageModel
     {
         private readonly NetCoreStartProject.Data.DataContext _context;

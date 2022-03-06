@@ -551,6 +551,7 @@ namespace NetCoreStartProject.Services.Identity
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Iss, _jwtSettings.Issuer),
                     new Claim(JwtRegisteredClaimNames.Aud, _jwtSettings.Audience),
+                    new Claim(ClaimTypes.Name, user.UserName),
                     new Claim("id", user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),

@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
+using NetCoreStartProject.Extensions;
 
 namespace NetCoreStartProject.Pages.Admin.Shared.City
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class EditModel : PageModel
     {
         private readonly NetCoreStartProject.Data.DataContext _context;
@@ -39,7 +42,7 @@ namespace NetCoreStartProject.Pages.Admin.Shared.City
                 return NotFound();
             }
            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "NameAr");
-           ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
+           //ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
@@ -47,6 +50,10 @@ namespace NetCoreStartProject.Pages.Admin.Shared.City
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            City.CreationDate = DateTime.Now;
+            City.LastModifiedDate = DateTime.Now;
+            City.CreatedBy = HttpContext.GetUserGuid();
+            City.LastModifiedBy = HttpContext.GetUserGuid();
             if (!ModelState.IsValid)
             {
                 return Page();

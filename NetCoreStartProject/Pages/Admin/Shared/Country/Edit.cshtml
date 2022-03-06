@@ -72,31 +72,11 @@
                 <input asp-for="Country.DescriptionEn" class="form-control" />
                 <span asp-validation-for="Country.DescriptionEn" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Country.CreatedBy" class="control-label"></label>
-                <select asp-for="Country.CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
-                <span asp-validation-for="Country.CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country.LastModifiedBy" class="control-label"></label>
-                <input asp-for="Country.LastModifiedBy" class="form-control" />
-                <span asp-validation-for="Country.LastModifiedBy" class="text-danger"></span>
-            </div>
             <input type="hidden" asp-for="Country.Id" />
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Country.IsDeleted" /> @Html.DisplayNameFor(model => model.Country.IsDeleted)
                 </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country.CreationDate" class="control-label"></label>
-                <input asp-for="Country.CreationDate" class="form-control" />
-                <span asp-validation-for="Country.CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country.LastModifiedDate" class="control-label"></label>
-                <input asp-for="Country.LastModifiedDate" class="form-control" />
-                <span asp-validation-for="Country.LastModifiedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Country.Slug" class="control-label"></label>

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using NetCoreStartProject.Data;
-using NetCoreStartProject.Domain;
 using NetCoreStartProject.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreStartProject.Pages.Admin.Shared.Country
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class CreateModel : PageModel
     {
         private readonly NetCoreStartProject.Data.DataContext _context;
@@ -22,7 +21,7 @@ namespace NetCoreStartProject.Pages.Admin.Shared.Country
 
         public IActionResult OnGet()
         {
-        ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
+        //ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 

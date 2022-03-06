@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,12 @@ using NetCoreStartProject.Domain;
 
 namespace NetCoreStartProject.Pages.Invitations
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class DetailsModel : PageModel
     {
-        private readonly NetCoreStartProject.Data.DataContext _context;
+        private readonly DataContext _context;
 
-        public DetailsModel(NetCoreStartProject.Data.DataContext context)
+        public DetailsModel(DataContext context)
         {
             _context = context;
         }

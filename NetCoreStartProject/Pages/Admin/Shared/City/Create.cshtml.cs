@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,19 +12,20 @@ using NetCoreStartProject.Extensions;
 
 namespace NetCoreStartProject.Pages.Admin.Shared.City
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class CreateModel : PageModel
     {
-        private readonly NetCoreStartProject.Data.DataContext _context;
+        private readonly DataContext _context;
 
-        public CreateModel(NetCoreStartProject.Data.DataContext context)
+        public CreateModel(DataContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
-        ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "NameAr");
-        ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "NameAr");
+            //ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 

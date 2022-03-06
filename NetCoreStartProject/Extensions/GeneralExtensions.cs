@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using NetCoreStartProject.Data;
 using NetCoreStartProject.Domain;
 using Slugify;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace NetCoreStartProject.Extensions
 {
@@ -21,7 +24,7 @@ namespace NetCoreStartProject.Extensions
                 return string.Empty;
             }
 
-            return httpContext.User.Claims.Single(x => x.Type == "id").Value;
+            return httpContext.User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         public static Guid GetUserGuid(this HttpContext httpContext)
@@ -31,10 +34,10 @@ namespace NetCoreStartProject.Extensions
                 return Guid.Empty;
             }
 
-            return new Guid(httpContext.User.Claims.Single(x => x.Type == "id").Value);
+            return new Guid(httpContext.User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
 
-        public static async Task<string> GenrateEmailConfirmationUrlAsync(this UserManager<User> userManager , User User , IUrlHelper Url , string RequestSchema)
+        public static async Task<string> GenrateEmailConfirmationUrlAsync(this UserManager<User> userManager, User User, IUrlHelper Url, string RequestSchema)
         {
             if (User == null || string.IsNullOrEmpty(User.Id.ToString()))
             {
@@ -69,27 +72,49 @@ namespace NetCoreStartProject.Extensions
             var config = new SlugHelperConfiguration();
 
             // Replace spaces with a dash
-            config.StringReplacements.Add(" ", "-");
+            //config.StringReplacements.Add(" ", "-");
 
             // We want a lowercase Slug
-            config.ForceLowerCase = true;
+            //config.ForceLowerCase = true;
 
             // Will collapse multiple seqential dashes down to a single one
-            config.CollapseDashes = true;
+            //config.CollapseDashes = true;
 
             // Will trim leading and trailing whitespace
-            config.TrimWhitespace = true;
+            //config.TrimWhitespace = true;
 
             // Colapse consecutive whitespace chars into one
-            config.CollapseWhiteSpace = true;
+            //config.CollapseWhiteSpace = true;
 
             // Remove everything that's not a letter, number, hyphen, dot, or underscore
-            config.DeniedCharactersRegex = @"[^a-zA-Z0-9\-\._]";
+            //config.DeniedCharactersRegex = @"[^a-zA-Z0-9\-\._]";
 
             SlugHelper helper = new SlugHelper(config);
 
             return helper.GenerateSlug(title); // "ola-ke-ase"
-            
+
+        }
+        public static string HashPassword(this string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return string.Empty;
+            }
+            byte[] salt = new byte[128 / 8];
+            using (var rngCsp = new RNGCryptoServiceProvider())
+            {
+                rngCsp.GetNonZeroBytes(salt);
+            }
+            Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
+
+            // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
+            return hashed;
         }
     }
 }

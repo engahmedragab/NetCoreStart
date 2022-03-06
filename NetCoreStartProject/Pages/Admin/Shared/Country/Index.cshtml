@@ -41,28 +41,10 @@
                 @Html.DisplayNameFor(model => model.Country[0].NameEn)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country[0].DescriptionAr)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country[0].DescriptionEn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country[0].LastModifiedBy)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Country[0].CreatedByUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Country[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country[0].CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country[0].LastModifiedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country[0].Slug)
             </th>
             <th></th>
         </tr>
@@ -104,28 +86,7 @@
                 @Html.DisplayFor(modelItem => item.NameEn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DescriptionAr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionEn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModifiedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedByUser.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModifiedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slug)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -6,112 +6,176 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+    background-image : url('/images/invitations/4.jpg');
+}
+.container {
+    opacity : .9;
+}
+.card {
+    width: 800px;
+    background-color: #fff;
+    border: none;
+    border-radius: 12px;
+    text-align:center;
+    text-align-last: center;
+}
+.justify-center{
+    justify-content: center;
+}
+label.radio {
+    cursor: pointer;
+    width: 100%
+}
 
-<h4>Invitation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Invitation.IsDone" /> @Html.DisplayNameFor(model => model.Invitation.IsDone)
-                </label>
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    padding: 7px 14px;
+    border: 2px solid #eee;
+    display: inline-block;
+    color: #039be5;
+    border-radius: 10px;
+    width: 100%;
+    height: 48px;
+    line-height: 27px
+}
+
+label.radio input:checked+span {
+    border-color: #039BE5;
+    background-color: #81D4FA;
+    color: #fff;
+    border-radius: 9px;
+    height: 48px;
+    line-height: 27px
+}
+
+.form-control {
+    margin-top: 10px;
+    height: 48px;
+    border: 2px solid #eee;
+    border-radius: 10px
+}
+.form-control:focus {
+  border-color: #f3843f;
+  outline: 0;
+  box-shadow: none;
+  border: 2px solid #f3843f
+}
+
+.agree-text {
+    font-size: 12px
+}
+
+.terms {
+    font-size: 12px;
+    text-decoration: none;
+    color: #039BE5
+}
+
+.confirm-button {
+    border: 0;
+    background-color:#e86866;
+}
+.confirm-button:hover {
+    background-color:#f3843f;
+}
+</style>
+
+<div class="container mt-5 mb-5 d-flex justify-content-center">
+    <div class="card px-1 py-4">
+        <div class="card-body">
+            <a href="https://Our-Bride.com"><img src="~/images/logoWeb.png" style="height: 60px" /></a>
+            <h1 class="card-title mb-3">OurBride Invitation Builder </h1>
+
+            <h4 class="information mt-4">Create your online Invitation - اعمل دعوة فرحك الاونلين</h4>
+            <hr />
+            <div class="row justify-center">
+                <div class="col-md-9">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.Bride" class="control-label">Bride - اسم العروسة<span class="text-danger">*</span></label>
+                            <input asp-for="Invitation.Bride" class="form-control" />
+                            <span asp-validation-for="Invitation.Bride" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.Groom" class="control-label">Groom - اسم العريس<span class="text-danger">*</span></label>
+                            <input asp-for="Invitation.Groom" class="form-control" />
+                            <span asp-validation-for="Invitation.Groom" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.WeddingDate" class="control-label">Wedding Date - تاريخ الفرح<span class="text-danger">*</span></label>
+                            <input asp-for="Invitation.WeddingDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="Invitation.WeddingDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.EngagementDate" class="control-label">Engagement Date - تاريخ الخطوبة</label>
+                            <input asp-for="Invitation.EngagementDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="Invitation.EngagementDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.HennaDate" class="control-label">Henna Date - تاريح الحنة</label>
+                            <input asp-for="Invitation.HennaDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="Invitation.HennaDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.CrownDate" class="control-label">Crown Date - تاريح كتب الكتاب \ الاكليل</label>
+                            <input asp-for="Invitation.CrownDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="Invitation.CrownDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.CountryId" class="control-label">Country - البلد</label>
+                            <select asp-for="Invitation.CountryId" class ="form-control" asp-items="ViewBag.CountryId"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.CityId" class="control-label">City - المحافظة</label>
+                            <select asp-for="Invitation.CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.Area" class="control-label">Area - المنطقة</label>
+                            <input asp-for="Invitation.Area" class="form-control" />
+                            <span asp-validation-for="Invitation.Area" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.Weddinghole" class="control-label">Wedding hole - اسم قاعة الفرح</label>
+                            <input asp-for="Invitation.Weddinghole" class="form-control" />
+                            <span asp-validation-for="Invitation.Weddinghole" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Invitation.WeddingAddress" class="control-label">Wedding Address - عنوان القاعة</label>
+                            <input asp-for="Invitation.WeddingAddress" class="form-control" />
+                            <span asp-validation-for="Invitation.WeddingAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary confirm-button" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Invitation.UserId" class="control-label"></label>
-                <select asp-for="Invitation.UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.Bride" class="control-label"></label>
-                <input asp-for="Invitation.Bride" class="form-control" />
-                <span asp-validation-for="Invitation.Bride" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.Groom" class="control-label"></label>
-                <input asp-for="Invitation.Groom" class="form-control" />
-                <span asp-validation-for="Invitation.Groom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.WeddingDate" class="control-label"></label>
-                <input asp-for="Invitation.WeddingDate" class="form-control" />
-                <span asp-validation-for="Invitation.WeddingDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.EngagementDate" class="control-label"></label>
-                <input asp-for="Invitation.EngagementDate" class="form-control" />
-                <span asp-validation-for="Invitation.EngagementDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.HennaDate" class="control-label"></label>
-                <input asp-for="Invitation.HennaDate" class="form-control" />
-                <span asp-validation-for="Invitation.HennaDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.CrownDate" class="control-label"></label>
-                <input asp-for="Invitation.CrownDate" class="form-control" />
-                <span asp-validation-for="Invitation.CrownDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.CountryId" class="control-label"></label>
-                <select asp-for="Invitation.CountryId" class ="form-control" asp-items="ViewBag.CountryId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.CityId" class="control-label"></label>
-                <select asp-for="Invitation.CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.Area" class="control-label"></label>
-                <input asp-for="Invitation.Area" class="form-control" />
-                <span asp-validation-for="Invitation.Area" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.Weddinghole" class="control-label"></label>
-                <input asp-for="Invitation.Weddinghole" class="form-control" />
-                <span asp-validation-for="Invitation.Weddinghole" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.WeddingAddress" class="control-label"></label>
-                <input asp-for="Invitation.WeddingAddress" class="form-control" />
-                <span asp-validation-for="Invitation.WeddingAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.ResponseFrom" class="control-label"></label>
-                <select asp-for="Invitation.ResponseFrom" class="form-control"></select>
-                <span asp-validation-for="Invitation.ResponseFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Invitation.IsDeleted" /> @Html.DisplayNameFor(model => model.Invitation.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.CreationDate" class="control-label"></label>
-                <input asp-for="Invitation.CreationDate" class="form-control" />
-                <span asp-validation-for="Invitation.CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.LastModifiedDate" class="control-label"></label>
-                <input asp-for="Invitation.LastModifiedDate" class="form-control" />
-                <span asp-validation-for="Invitation.LastModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invitation.Slug" class="control-label"></label>
-                <input asp-for="Invitation.Slug" class="form-control" />
-                <span asp-validation-for="Invitation.Slug" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function compare(item) {
+            if (new Date($(item).val()) > new Date("2020-7-14")) {
+                $(item).attr("value", "");
+                $("#date2").remove();
+                var date2 = '<input type="date" name="date2" id="date2"  onchange="compare(this)" />';
+                $("#div1").append(date2);
+            }
+
+        }
+    </script>
 }

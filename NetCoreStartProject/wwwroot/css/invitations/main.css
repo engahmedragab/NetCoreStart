@@ -3,29 +3,39 @@
 html {
   overflow-x: hidden;
 }
-
 body {
-  background: #fff;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: 'Open Sans', sans-serif;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-font-smoothing: subpixel-antialiased;
-  color: #333;
-  line-height: 25px;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  overflow-x: hidden;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    /*font-family: 'Open Sans', sans-serif;*/
+/*    font-family: 'Brush Script MT', cursive !important;*/
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-font-smoothing: subpixel-antialiased;
+    color: #333;
+    line-height: 25px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1 {
   font-size: 36px;
   font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
 }
-
+h2 {
+    font-size: 32px;
+    font-weight: 600;
+}
+h3 {
+    font-size: 28px;
+    font-weight: 500;
+}
+h4 {
+    font-size: 24px;
+    font-weight: 400;
+}
 a {
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
@@ -43,7 +53,7 @@ a a:focus {
 
 p {
   font-weight: 400;
-  font-family: 'Open Sans', sans-serif;
+  /*font-family: 'Open Sans', sans-serif;*/
   margin: 0px;
   font-size: 14px;
 }
